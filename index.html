@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>auto_complete组件</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <div id="app">
+    <div class="auto-complete">
+      <input type="text" v-model="input" @input="filter">
+      <ul>
+        <li v-for="option in filtered_options" content="d" @click="add(option)">{{ option }}</li>
+      </ul>
+    </div>
+  </div>
+  <script>
+      let app = new Vue({
+          el: "#app",
+          data:{
+              input:"",
+              options:["选项1","javascript","选项3","vue","php","python"],
+              filtered_options:[],
+          },
+          methods:{
+              add(str) {
+                  this.input = str
+                  this.filter()
+              },
+              filter() {
+                  this.filtered_options = this.options.filter(r => r.includes(this.input)&&r!==this.input)
+              }
+          },
+          mounted(){
+              this.filter()
+          }
+      })
+  </script>
+  <style>
+    .auto-complete {
+      --li-color: #16fffe;
+      --li-hover-color: #17fff6;
+      width: 10em;
+      box-shadow: 0 0 1px 1px darkgray;
+    }
+
+    .auto-complete > input {
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .auto-complete:hover > ul {
+      display: block;
+    }
+
+    .auto-complete > ul {
+      width: 100%;
+      display: none;
+      padding: .3em 0;
+      margin: .2em 0;
+      list-style: none;
+    }
+
+    .auto-complete > ul > li {
+      width: 100%;
+      box-sizing: border-box;
+      margin: .1em 0;
+      padding: .1em .2em;
+      border: solid var(--li-color);
+      border-width: 0 0 .1em 0;
+    }
+
+    .auto-complete > ul > li:last-child {
+      border: none;
+    }
+
+    .auto-complete > ul > li:hover {
+      background: var(--li-hover-color);
+    }
+  </style>
+
+  </body>
+</html>
